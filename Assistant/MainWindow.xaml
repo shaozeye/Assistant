@@ -1,0 +1,23 @@
+﻿<Window x:Class="Assistant.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+
+        xmlns:local="clr-namespace:Assistant"
+        xmlns:ui="clr-namespace:UILib.Controls;assembly=UILib"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="720" Width="1280" WindowStartupLocation="CenterScreen" DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="55"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Background="#FF303947">
+            <ui:ImageButton Icon="Resources/Images/Coding.png" ToolTip="生成编码" Command="{Binding ChangePageCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}" Tag="Encoding"/>
+            <ui:ImageButton Icon="Resources/Images/Rule.png" ToolTip="编码原则"/>
+        </StackPanel>
+        <Frame Grid.Column="1" Source="{Binding FrameSources}"></Frame>
+    </Grid>
+</Window>

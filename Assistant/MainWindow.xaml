@@ -16,7 +16,8 @@
         </Grid.ColumnDefinitions>
         <StackPanel Background="#FF303947">
             <ui:ImageButton Icon="Resources/Images/Coding.png" ToolTip="生成编码" Command="{Binding ChangePageCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}" Tag="Encoding"/>
-            <ui:ImageButton Icon="Resources/Images/Rule.png" ToolTip="编码原则"/>
+            <ui:ImageButton Icon="Resources/Images/Rule.png" ToolTip="编码原则" />
+            <ui:ImageButton Icon="Resources/Images/Log.png" ToolTip="查看日志"/>
         </StackPanel>
         <Frame Grid.Column="1" Source="{Binding FrameSources}"></Frame>
     </Grid>

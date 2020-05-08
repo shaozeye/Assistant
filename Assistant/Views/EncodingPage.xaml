@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
         <Border HorizontalAlignment="Left" BorderBrush="#FF36CFC9" BorderThickness="1" >
             <StackPanel Background="White">
-                <ui:IconButton Icon="&#xe738;" Content="载入总表"/>
+                <ui:IconButton Icon="&#xe738;" Content="载入总表" Command="{Binding LoadCommand}"/>
                 <ui:IconButton Icon="&#xe6bc;" Content="自动编码"/>
                 <ui:IconButton Icon="&#xe6a4;" Content="生成文件"/>
             </StackPanel>
@@ -50,7 +50,7 @@
                         <Border Background="White" Margin="5"></Border>
                     </Grid>
                 </Border>
-                <DataGrid Grid.Row="1" Margin="5"></DataGrid>
+                <DataGrid Grid.Row="1" Margin="5" ItemsSource="{Binding encodingModel.DtSources}"></DataGrid>
                 
             </Grid>
         </Border>

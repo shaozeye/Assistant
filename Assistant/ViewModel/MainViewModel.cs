@@ -50,6 +50,7 @@ namespace Assistant.ViewModel
             ////    // Code runs "for real"
             ////}
             ChangePageCommand = new RelayCommand<RadioButton>(ChangePage);
+            FrameSources = "Views/EncodingPage.xaml";
         }
 
         private void ChangePage(RadioButton obj)

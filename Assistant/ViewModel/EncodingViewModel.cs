@@ -32,6 +32,7 @@ namespace Assistant.ViewModel
             //FilePath = exchangeData.ReadConfigXml("totalDataPath");
             FilePath = @"D:\仓库物料总表标准版.xls";
             encodingModel.DtSources= LoadAllData(FilePath);
+            encodingModel.TotalCount = encodingModel.DtSources.Rows.Count;
         }
 
         public void ExportData(DataTable table)

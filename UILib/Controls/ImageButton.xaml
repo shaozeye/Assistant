@@ -9,14 +9,21 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ImageButton}">
                     <Border Margin="10" Name="bd">
-                        <Image Source="{TemplateBinding Icon}" />
+                        
+                        <Image Source="{TemplateBinding Icon}" Name="image">
+                            <Image.RenderTransform>
+                                <RotateTransform x:Name="icon" CenterX="17.5" CenterY="17.5"/>
+                            </Image.RenderTransform>
+                        </Image>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="bd" Property="Margin" Value="8"/>
+                           
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="bd" Property="Margin" Value="12"/>
+                           
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -7,7 +7,7 @@
       xmlns:ui="clr-namespace:UILib.Controls;assembly=UILib"
 
       mc:Ignorable="d" 
-      d:DesignHeight="690.4" d:DesignWidth="1218.4" Background="#FFF5F6F7"
+      d:DesignHeight="690.4" d:DesignWidth="1218.4" Background="#FFD0DDEA"
       Title="Encoding" DataContext="{Binding Source={StaticResource Locator}, Path=Encoding}">
 
     <Grid>
@@ -15,10 +15,10 @@
             <ColumnDefinition Width="190"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Border HorizontalAlignment="Left" BorderBrush="#FF36CFC9" BorderThickness="1" >
+        <Border HorizontalAlignment="Left" BorderBrush="#FF36CFC9" BorderThickness="0,1,1,1" >
             <StackPanel Background="White">
                 <ui:IconButton Icon="&#xe738;" Content="载入总表" Command="{Binding LoadCommand}"/>
-                <ui:IconButton Icon="&#xe6bc;" Content="自动编码"/>
+                <ui:IconButton Icon="&#xe6bc;" Content="自动编码" />
                 <ui:IconButton Icon="&#xe6a4;" Content="生成文件"/>
             </StackPanel>
             <Border.Triggers>
@@ -27,6 +27,7 @@
                         <BeginStoryboard >
                             <Storyboard>
                                 <DoubleAnimation Duration="0:0:0.2" To="190" From="0" Storyboard.TargetProperty="Width"/>
+                                
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger.Actions>
@@ -43,15 +44,71 @@
                 <Border>
                     <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="200"/>
                         </Grid.ColumnDefinitions>
-                        <Border Background="White" Margin="5"></Border>
+                        <Border Background="White" Margin="5" BorderThickness="1" BorderBrush="#FFFFC53D">
+                            <DockPanel>
+                                <Border DockPanel.Dock="Left" HorizontalAlignment="Left" Background="#FFFFC53D">
+                                    <TextBlock Text="提示" Foreground="White" FontSize="16" VerticalAlignment="Center"/>
+                                </Border>
+                                <Border DockPanel.Dock="Top" VerticalAlignment="Top">
+                                    <TextBlock Margin="3,2" Text="BOM表"  FontSize="14" VerticalAlignment="Center"  Foreground="#FFFFC53D"/>
+                                </Border>
+                                <Border DockPanel.Dock="Top" VerticalAlignment="Top">
+                                    <TextBlock Margin="3,2" Text="请购表"  FontSize="14" VerticalAlignment="Center"  Foreground="#FFFFC53D"/>
+                                </Border>
+                                <Border DockPanel.Dock="Top" VerticalAlignment="Top">
+                                    <TextBlock Margin="3,2" Text="已成功生成文件"  FontSize="14" VerticalAlignment="Center"  Foreground="#FFFFC53D"/>
+                                </Border>
+                            </DockPanel>
+                        </Border>
+                        <Border Grid.Column="1" Background="White" Margin="5" BorderThickness="1" BorderBrush="#FF69C0FF">
+                            <DockPanel>
+                                <Border HorizontalAlignment="Left" Background="#FF69C0FF">
+                                    <TextBlock Text="记录" Foreground="White" FontSize="16"   HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+
+                                </Border>
+                                <Border DockPanel.Dock="Right">
+                                    <TextBlock Margin="3,2" VerticalAlignment="Center"  FontSize="14" Foreground="#FF69C0FF" Text="第19周"/>
+                                </Border>
+
+                                <TextBlock Margin="3,2" DockPanel.Dock="Top" FontSize="14" Foreground="#FF69C0FF" Text="本次任务："/>
+                                <TextBlock  Margin="3,2" DockPanel.Dock="Top" FontSize="14" Foreground="#FF69C0FF" Text="今日新增："/>
+                                <TextBlock Margin="3,2" DockPanel.Dock="Top" FontSize="14" Foreground="#FF69C0FF" Text="本周累计："/>
+
+                            </DockPanel>
+                        </Border>
+                        <Border Background="White" Margin="5" Grid.Column="2" BorderBrush="#FF36CFC9" BorderThickness="1">
+                            <DockPanel>
+                                <Border Background="#FF36CFC9" DockPanel.Dock="Top">
+                                    <TextBlock HorizontalAlignment="Center" FontSize="16" Foreground="White">
+                                    编码新增
+                                    </TextBlock>
+                                </Border>
+                                <TextBlock Text="{Binding encodingModel.IdentifyCount}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="#FF36CFC9"></TextBlock>
+                            </DockPanel>
+
+                        </Border>
+                        <Border Background="White" Margin="5" Grid.Column="3" BorderBrush="#FFFF7A45" BorderThickness="1">
+                            <DockPanel>
+                                <Border Background="#FFFF7A45" DockPanel.Dock="Top">
+                                    <TextBlock HorizontalAlignment="Center" FontSize="16" Foreground="White">
+                                    总表数量
+                                    </TextBlock>
+                                </Border>
+                                <TextBlock Text="{Binding encodingModel.TotalCount}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="#FFFF7A45"></TextBlock>
+                            </DockPanel>
+
+                        </Border>
                     </Grid>
                 </Border>
-                <DataGrid Grid.Row="1" Margin="5" ItemsSource="{Binding encodingModel.DtSources}"></DataGrid>
-                
+                <DataGrid Style="{StaticResource NPOITable}" Grid.Row="1" Margin="5,0" ColumnWidth="*" ItemsSource="{Binding encodingModel.DtSources}">
+
+                </DataGrid>
+
             </Grid>
         </Border>
     </Grid>

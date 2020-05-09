@@ -93,6 +93,9 @@
     <Compile Include="Views\EncodingPage.xaml.cs">
       <DependentUpon>EncodingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SetPage.xaml.cs">
+      <DependentUpon>SetPage.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -106,6 +109,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\EncodingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SetPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

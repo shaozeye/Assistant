@@ -61,42 +61,41 @@ namespace Assistant.Services
                 table.Columns.Add(header.Cells[i].ToString().Replace("/", "").Replace("\n", "").Replace(".", ""));
             }
             IRow cells;
-            for (int i = first + 1; i <= sheet.LastRowNum - first; i++)
+            for (int i = first + 1; i <= sheet.LastRowNum; i++)
             {
                 DataRow dataRow = table.NewRow();
                 cells = sheet.GetRow(i);
                 for (int j = 0; j < cells.LastCellNum; j++)
                 {
-                    if(cells.Cells[j]!=null)
-                    dataRow[j] =cells.Cells[j].StringCellValue;
+                    dataRow[j] = GetValueType(cells.GetCell(j));
                 }
                 table.Rows.Add(dataRow);
             }
             return table;
         }
-        //    private static object GetValueType(ICell cell)
-        //    {
-        //        if (cell == null)
-        //            return null;
-        //        switch (cell.CellType)
-        //        {
-        //            case CellType.Blank:
-        //                return "";
-        //            case CellType.Boolean:
-        //                return cell.BooleanCellValue;
-        //            case CellType.Numeric:
-        //                return cell.NumericCellValue;
-        //            case CellType.String:
-        //                return cell.StringCellValue.Trim();
-        //            case CellType.Error:
-        //                return cell.ErrorCellValue;
-        //            case CellType.Formula:
-        //                return cell.StringCellValue;
-        //            default:
-        //                return "=" + cell.CellFormula;
-        //        }
-
-        public void DatatableToExcel(DataTable table)
+        private static object GetValueType(ICell cell)
+        {
+            if (cell == null)
+                return null;
+            switch (cell.CellType)
+            {
+                case CellType.Blank:
+                    return "";
+                case CellType.Boolean:
+                    return cell.BooleanCellValue;
+                case CellType.Numeric:
+                    return cell.NumericCellValue;
+                case CellType.String:
+                    return cell.StringCellValue.Trim();
+                case CellType.Error:
+                    return cell.ErrorCellValue;
+                case CellType.Formula:
+                    return cell.StringCellValue;
+                default:
+                    return "=" + cell.CellFormula;
+            }
+        }
+            public void DatatableToExcel(DataTable table)
         {
 
         }

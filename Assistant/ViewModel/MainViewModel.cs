@@ -1,6 +1,5 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using System;
 using System.Windows.Controls;
 
 namespace Assistant.ViewModel
@@ -59,4 +58,5 @@ namespace Assistant.ViewModel
             FrameSources = @"Views/" + select.Tag + "Page.xaml";
         }
     }
+
 }

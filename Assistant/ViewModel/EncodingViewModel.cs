@@ -3,15 +3,11 @@ using Assistant.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assistant.ViewModel
 {
-    public class EncodingViewModel:ViewModelBase,IHandleData
+    public class EncodingViewModel : ViewModelBase, IHandleData
     {
         public string FilePath { get; set; }
         public ExchangeData exchangeData { get; set; }
@@ -31,13 +27,13 @@ namespace Assistant.ViewModel
         {
             //FilePath = exchangeData.ReadConfigXml("totalDataPath");
             FilePath = @"D:\仓库物料总表标准版.xls";
-            encodingModel.DtSources= LoadAllData(FilePath);
+            encodingModel.DtSources = LoadAllData(FilePath);
             encodingModel.TotalCount = encodingModel.DtSources.Rows.Count;
         }
 
         public void ExportData(DataTable table)
         {
-            
+
         }
 
         public DataTable GetMaxSerialNum(DataTable table)
@@ -48,8 +44,9 @@ namespace Assistant.ViewModel
         public DataTable LoadAllData(string filePath)
         {
             DataTable table = new DataTable();
-            table = exchangeData.ExcelToDatatable(filePath);
-           
+            string state;
+            table = exchangeData.ExcelToDatatable(filePath, out state);
+            encodingModel.State = state;
             return table;
         }
 
@@ -69,6 +66,6 @@ namespace Assistant.ViewModel
         DataTable LoadTempData(string filePath);
         DataTable GetMaxSerialNum(DataTable table);
         void ExportData(DataTable table);
-        void Log(string filePath,string Msg);
+        void Log(string filePath, string Msg);
     }
 }

@@ -14,11 +14,12 @@
             <ColumnDefinition Width="55"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <StackPanel Background="#FF303947">
-            <ui:ImageButton IsChecked="True" Icon="Resources/Images/Coding.png" ToolTip="生成编码" Command="{Binding ChangePageCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}" Tag="Encoding"/>
-            <ui:ImageButton Icon="Resources/Images/Rule.png" ToolTip="编码原则" />
-            <ui:ImageButton Icon="Resources/Images/Log.png" ToolTip="查看日志" Command="{Binding ChangePageCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}" Tag="Set"/>
-        </StackPanel>
+        <DockPanel Background="#FF303947" LastChildFill="False">
+            <ui:ImageButton IsChecked="True" Icon="Resources/Images/Coding.png" DockPanel.Dock="Top" ToolTip="生成编码" Command="{Binding ChangePageCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}" Tag="Encoding"/>
+            <ui:ImageButton Icon="Resources/Images/Rule.png" ToolTip="编码原则" DockPanel.Dock="Top" />
+            <ui:ImageButton Icon="Resources/Images/Log.png" ToolTip="查看日志" DockPanel.Dock="Top" Command="{Binding ChangePageCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}" Tag="Set"/>
+            <ui:IconButton Width="auto" Icon="&#58976;" Background="Transparent" Foreground="White" DockPanel.Dock="Bottom"/>
+        </DockPanel>
         <Frame NavigationUIVisibility="Hidden" Grid.Column="1" Source="{Binding FrameSources}"></Frame>
     </Grid>
 </Window>

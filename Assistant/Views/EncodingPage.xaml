@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Assistant.Views"
       xmlns:ui="clr-namespace:UILib.Controls;assembly=UILib"
-
+      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
       mc:Ignorable="d" 
       d:DesignHeight="690.4" d:DesignWidth="1218.4" Background="#FFD0DDEA"
       Title="Encoding" DataContext="{Binding Source={StaticResource Locator}, Path=Encoding}">
@@ -16,7 +16,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Border HorizontalAlignment="Left" BorderBrush="#FF36CFC9" BorderThickness="0,1,1,1" >
-            <StackPanel Background="White">
+            <StackPanel Background="White" Width="190">
                 <ui:IconButton Icon="&#xe738;" Content="载入总表" Command="{Binding LoadCommand}"/>
                 <ui:IconButton Icon="&#xe6bc;" Content="自动编码" />
                 <ui:IconButton Icon="&#xe6a4;" Content="生成文件"/>
@@ -44,15 +44,15 @@
                 <Border>
                     <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
                             <ColumnDefinition Width="200"/>
-                            <ColumnDefinition/>
                             <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="200"/>
                         </Grid.ColumnDefinitions>
                         <Border Background="White" Margin="5" BorderThickness="1" BorderBrush="#FFFFC53D">
                             <DockPanel>
                                 <Border DockPanel.Dock="Left" HorizontalAlignment="Left" Background="#FFFFC53D">
-                                    <TextBlock Text="提示" Foreground="White" FontSize="16" VerticalAlignment="Center"/>
+                                    <TextBlock Margin="2" Text="提示" Foreground="White" FontSize="16" VerticalAlignment="Center"/>
                                 </Border>
                                 <Border DockPanel.Dock="Top" VerticalAlignment="Top">
                                     <TextBlock Margin="3,2" Text="BOM表"  FontSize="14" VerticalAlignment="Center"  Foreground="#FFFFC53D"/>
@@ -61,14 +61,16 @@
                                     <TextBlock Margin="3,2" Text="请购表"  FontSize="14" VerticalAlignment="Center"  Foreground="#FFFFC53D"/>
                                 </Border>
                                 <Border DockPanel.Dock="Top" VerticalAlignment="Top">
-                                    <TextBlock Margin="3,2" Text="已成功生成文件"  FontSize="14" VerticalAlignment="Center"  Foreground="#FFFFC53D"/>
+                                    <TextBlock  ToolTip="{Binding encodingModel.State}" Margin="3,2" Text="{Binding encodingModel.State}"  FontSize="14" VerticalAlignment="Center"  Foreground="#FFFFC53D">
+                                      
+                                    </TextBlock>
                                 </Border>
                             </DockPanel>
                         </Border>
                         <Border Grid.Column="1" Background="White" Margin="5" BorderThickness="1" BorderBrush="#FF69C0FF">
                             <DockPanel>
                                 <Border HorizontalAlignment="Left" Background="#FF69C0FF">
-                                    <TextBlock Text="记录" Foreground="White" FontSize="16"   HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                                    <TextBlock Margin="2" Text="记录" Foreground="White" FontSize="16"   HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
 
                                 </Border>
                                 <Border DockPanel.Dock="Right">

@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
+using System;
 using System.Configuration;
 using System.Data;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using NPOI.HSSF.UserModel;
-using NPOI.SS.Formula.Functions;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
 
 namespace Assistant.Services
 {
     interface IExchangeData
     {
-        DataTable ExcelToDatatable(string filePath);
+        DataTable ExcelToDatatable(string filePath, out string msg);
         void DatatableToExcel(DataTable table);
         string ReadConfigXml(string key);
         void WriteConfigXml(string key, string value);
@@ -30,46 +25,56 @@ namespace Assistant.Services
         }
         private IWorkbook workbook = null;
         private FileStream fs = null;
-        public DataTable ExcelToDatatable(string filePath)
+        public DataTable ExcelToDatatable(string filePath, out string msg)
         {
+            msg = "";
             DataTable table = new DataTable();
             ISheet sheet = null;
-            fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            switch (Path.GetExtension(filePath).ToLower())
+            try
             {
-                case ".xlsx":
-                    workbook = new XSSFWorkbook(fs);
-                    break;
-                case ".xls":
-                    workbook = new HSSFWorkbook(fs);
-                    break;
-                default:
-                    MessageBox.Show(ReadConfigXml("alarm01"));
-                    break;
-            }
-            sheet = workbook.GetSheetAt(0);
-            int first = 0;
-            ICell cell = sheet.GetRow(first).GetCell(0);
-            while (cell == null || cell.IsMergedCell)
-            {
-                first++;
-                cell = sheet.GetRow(first).GetCell(0);
-            }
-            IRow header = sheet.GetRow(first);
-            for (int i = 0; i < header.LastCellNum; i++)
-            {
-                table.Columns.Add(header.Cells[i].ToString().Replace("/", "").Replace("\n", "").Replace(".", ""));
-            }
-            IRow cells;
-            for (int i = first + 1; i <= sheet.LastRowNum; i++)
-            {
-                DataRow dataRow = table.NewRow();
-                cells = sheet.GetRow(i);
-                for (int j = 0; j < cells.LastCellNum; j++)
+
+
+                fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                switch (Path.GetExtension(filePath).ToLower())
                 {
-                    dataRow[j] = GetValueType(cells.GetCell(j));
+                    case ".xlsx":
+                        workbook = new XSSFWorkbook(fs);
+                        break;
+                    case ".xls":
+                        workbook = new HSSFWorkbook(fs);
+                        break;
+                    default:
+                        MessageBox.Show(ReadConfigXml("alarm01"));
+                        break;
                 }
-                table.Rows.Add(dataRow);
+                sheet = workbook.GetSheetAt(0);
+                int first = 0;
+                ICell cell = sheet.GetRow(first).GetCell(0);
+                while (cell == null || cell.IsMergedCell)
+                {
+                    first++;
+                    cell = sheet.GetRow(first).GetCell(0);
+                }
+                IRow header = sheet.GetRow(first);
+                for (int i = 0; i < header.LastCellNum; i++)
+                {
+                    table.Columns.Add(header.Cells[i].ToString().Replace("/", "").Replace("\n", "").Replace(".", ""));
+                }
+                IRow cells;
+                for (int i = first + 1; i <= sheet.LastRowNum; i++)
+                {
+                    DataRow dataRow = table.NewRow();
+                    cells = sheet.GetRow(i);
+                    for (int j = 0; j < cells.LastCellNum; j++)
+                    {
+                        dataRow[j] = GetValueType(cells.GetCell(j));
+                    }
+                    table.Rows.Add(dataRow);
+                }
+            }
+            catch (Exception e)
+            {
+                msg = e.Message;
             }
             return table;
         }
@@ -95,7 +100,7 @@ namespace Assistant.Services
                     return "=" + cell.CellFormula;
             }
         }
-            public void DatatableToExcel(DataTable table)
+        public void DatatableToExcel(DataTable table)
         {
 
         }

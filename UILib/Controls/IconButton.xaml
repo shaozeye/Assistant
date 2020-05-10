@@ -12,19 +12,19 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:IconButton}">
-                    <Border Width="190" Height="{TemplateBinding Height}" Name="bd" Background="{TemplateBinding Background}">
+                    <Border Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=StackPanel}, Path=Width}" Height="{TemplateBinding Height}" Name="bd" Background="{TemplateBinding Background}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="55"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock  VerticalAlignment="Center" HorizontalAlignment="Center" Text="{TemplateBinding Icon}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}">
+                            <TextBlock Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{TemplateBinding Icon}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}">
                                 <TextBlock.RenderTransform>
                                     <RotateTransform CenterX="10" CenterY="10"  x:Name="icon">
                                     </RotateTransform>
                                 </TextBlock.RenderTransform>
                             </TextBlock>
-                            <TextBlock VerticalAlignment="Center" FontSize="{TemplateBinding FontSize}" Text="{TemplateBinding Content}" Grid.Column="1"/>
+                            <TextBlock Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" FontSize="{TemplateBinding FontSize}" Text="{TemplateBinding Content}" Grid.Column="1"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -33,6 +33,7 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="#FF36CFC9" TargetName="bd"/>
+                            <Setter Property="Foreground" Value="white"/>
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>

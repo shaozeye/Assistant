@@ -1,15 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assistant.Models
 {
-    public class EncodingModel:ObservableObject
-    {	
+	public class EncodingModel : ObservableObject
+	{
 		private DataTable dtSources;
 
 		public DataTable DtSources
@@ -23,6 +18,14 @@ namespace Assistant.Models
 		}
 
 		#region 成员字段
+		private string state;
+
+		public string State
+		{
+			get { return state; }
+			set { state = value; RaisePropertyChanged("State"); }
+		}
+
 		private DataTable totalTable;
 
 		public DataTable TotalTable

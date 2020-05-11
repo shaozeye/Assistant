@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Assistant.Views"
       xmlns:ui="clr-namespace:UILib.Controls;assembly=UILib"
+       xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
       xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
       mc:Ignorable="d" 
       d:DesignHeight="690.4" d:DesignWidth="1218.4" Background="#FFD0DDEA"
@@ -18,7 +19,7 @@
         <Border HorizontalAlignment="Left" BorderBrush="#FF36CFC9" BorderThickness="0,1,1,1" >
             <StackPanel Background="White" Width="190">
                 <ui:IconButton Icon="&#xe738;" Content="载入总表" Command="{Binding LoadCommand}"/>
-                <ui:IconButton Icon="&#xe6bc;" Content="自动编码" />
+                <ui:IconButton Icon="&#xe6bc;" Content="自动编码" Command="{Binding LoadTempCommand}"/>
                 <ui:IconButton Icon="&#xe6a4;" Content="生成文件"/>
             </StackPanel>
             <Border.Triggers>
@@ -51,19 +52,22 @@
                         </Grid.ColumnDefinitions>
                         <Border Background="White" Margin="5" BorderThickness="1" BorderBrush="#FFFFC53D">
                             <DockPanel>
-                                <Border DockPanel.Dock="Left" HorizontalAlignment="Left" Background="#FFFFC53D">
+                                <Border Name="bd" DockPanel.Dock="Left" HorizontalAlignment="Left" Background="#FFFFC53D">
                                     <TextBlock Margin="2" Text="提示" Foreground="White" FontSize="16" VerticalAlignment="Center"/>
                                 </Border>
                                 <Border DockPanel.Dock="Top" VerticalAlignment="Top">
-                                    <TextBlock Margin="3,2" Text="BOM表"  FontSize="14" VerticalAlignment="Center"  Foreground="#FFFFC53D"/>
-                                </Border>
-                                <Border DockPanel.Dock="Top" VerticalAlignment="Top">
-                                    <TextBlock Margin="3,2" Text="请购表"  FontSize="14" VerticalAlignment="Center"  Foreground="#FFFFC53D"/>
-                                </Border>
-                                <Border DockPanel.Dock="Top" VerticalAlignment="Top">
-                                    <TextBlock  ToolTip="{Binding encodingModel.State}" Margin="3,2" Text="{Binding encodingModel.State}"  FontSize="14" VerticalAlignment="Center"  Foreground="#FFFFC53D">
-                                      
-                                    </TextBlock>
+                                    <TextBox BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" ToolTip="{Binding encodingModel.State}" Margin="3,2" Text="{Binding encodingModel.State}"  FontSize="14" VerticalAlignment="Center"  Foreground="#FFFFC53D">
+                                        <TextBox.Triggers>
+                                            <EventTrigger RoutedEvent="TextBox.TextChanged">
+                                                <BeginStoryboard>
+                                                    <Storyboard AutoReverse="True">
+                       
+                                                        <DoubleAnimation RepeatBehavior="0:0:1" From="1" To="0" Storyboard.TargetProperty="Opacity" Duration="00:00:0.2" Storyboard.TargetName="bd"/>
+                                                         </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </TextBox.Triggers>
+                                    </TextBox>
                                 </Border>
                             </DockPanel>
                         </Border>
@@ -77,7 +81,7 @@
                                     <TextBlock Margin="3,2" VerticalAlignment="Center"  FontSize="14" Foreground="#FF69C0FF" Text="第19周"/>
                                 </Border>
 
-                                <TextBlock Margin="3,2" DockPanel.Dock="Top" FontSize="14" Foreground="#FF69C0FF" Text="本次任务："/>
+                                <TextBlock Margin="3,2" DockPanel.Dock="Top" FontSize="14" Foreground="#FF69C0FF" Text="本次新增："/>
                                 <TextBlock  Margin="3,2" DockPanel.Dock="Top" FontSize="14" Foreground="#FF69C0FF" Text="今日新增："/>
                                 <TextBlock Margin="3,2" DockPanel.Dock="Top" FontSize="14" Foreground="#FF69C0FF" Text="本周累计："/>
 
@@ -101,14 +105,19 @@
                                     总表数量
                                     </TextBlock>
                                 </Border>
-                                <TextBlock Text="{Binding encodingModel.TotalCount}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="#FFFF7A45"></TextBlock>
+                                <TextBlock Text="{Binding encodingModel.TotalCount}" HorizontalAlignment="Center" Margin="0,0,10,0" VerticalAlignment="Center" FontSize="20" Foreground="#FFFF7A45"></TextBlock>
                             </DockPanel>
 
                         </Border>
                     </Grid>
                 </Border>
-                <DataGrid Style="{StaticResource NPOITable}" Grid.Row="1" Margin="5,0" ColumnWidth="*" ItemsSource="{Binding encodingModel.DtSources}">
-
+                <DataGrid Style="{StaticResource NPOITable}" Grid.Row="1" Margin="5,0" ColumnWidth="*" 
+                          ItemsSource="{Binding encodingModel.DtSources}" AllowDrop="True">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Drop">
+                            <mvvm:EventToCommand PassEventArgsToCommand="True" Command="{Binding DropFileCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </DataGrid>
 
             </Grid>

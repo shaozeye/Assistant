@@ -1,5 +1,7 @@
+using Assistant.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using System;
 using System.Windows.Controls;
 
 namespace Assistant.ViewModel
@@ -24,6 +26,7 @@ namespace Assistant.ViewModel
         /// 
 
         public RelayCommand<RadioButton> ChangePageCommand { get; set; }
+        public RelayCommand SetConfigCommand { get; set; }
 
 
         private string frameSources;
@@ -49,7 +52,14 @@ namespace Assistant.ViewModel
             ////    // Code runs "for real"
             ////}
             ChangePageCommand = new RelayCommand<RadioButton>(ChangePage);
+            SetConfigCommand = new RelayCommand(SetConfig);
             FrameSources = "Views/EncodingPage.xaml";
+        }
+
+        private void SetConfig()
+        {
+            SetWindow setWindow = new SetWindow();
+            setWindow.ShowDialog();
         }
 
         private void ChangePage(RadioButton obj)

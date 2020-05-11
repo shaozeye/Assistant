@@ -5,6 +5,7 @@ using System;
 using System.Configuration;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Windows;
 
 namespace Assistant.Services
@@ -65,13 +66,13 @@ namespace Assistant.Services
                 {
                     DataRow dataRow = table.NewRow();
                     cells = sheet.GetRow(i);
-                    for (int j = 0; j < cells.LastCellNum; j++)
+                    for (int j = 0; j < header.LastCellNum; j++)
                     {
                         dataRow[j] = GetValueType(cells.GetCell(j));
                     }
                     table.Rows.Add(dataRow);
                 }
-            }
+        }
             catch (Exception e)
             {
                 msg = e.Message;

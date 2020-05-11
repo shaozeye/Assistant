@@ -45,6 +45,7 @@ namespace Assistant.ViewModel
 
             SimpleIoc.Default.Register<MainViewModel>(); 
             SimpleIoc.Default.Register<EncodingViewModel>();
+            SimpleIoc.Default.Register<SetWindowViewModel>();
         }
 
         public MainViewModel Main
@@ -61,6 +62,13 @@ namespace Assistant.ViewModel
                 return ServiceLocator.Current.GetInstance<EncodingViewModel>();
             }
 
+        }
+        public SetWindowViewModel SetWindow
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<SetWindowViewModel>();
+            }
         }
         public static void Cleanup()
         {

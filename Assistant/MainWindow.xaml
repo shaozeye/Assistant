@@ -7,7 +7,8 @@
         xmlns:local="clr-namespace:Assistant"
         xmlns:ui="clr-namespace:UILib.Controls;assembly=UILib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280" WindowStartupLocation="CenterScreen" DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
+        Height="720" Width="1280" WindowStartupLocation="CenterScreen"
+        Icon="/Resources/Images/logo.ico"  Title="{Binding Version,StringFormat='版本:{0}'}" DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
 
     <Grid>
         <Grid.ColumnDefinitions>

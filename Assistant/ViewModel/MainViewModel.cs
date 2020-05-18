@@ -1,3 +1,4 @@
+using Assistant.Services;
 using Assistant.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -40,6 +41,18 @@ namespace Assistant.ViewModel
                 RaisePropertyChanged(nameof(FrameSources));
             }
         }
+        private string version;
+
+        public string Version
+        {
+            get { return version; }
+            set
+            {
+                version = value;
+                RaisePropertyChanged(nameof(Version));
+            }
+        }
+
 
         public MainViewModel()
         {
@@ -54,6 +67,7 @@ namespace Assistant.ViewModel
             ChangePageCommand = new RelayCommand<RadioButton>(ChangePage);
             SetConfigCommand = new RelayCommand(SetConfig);
             FrameSources = "Views/EncodingPage.xaml";
+            version = new ExchangeData().ReadConfigXml("version");
         }
 
         private void SetConfig()

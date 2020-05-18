@@ -62,10 +62,11 @@ namespace Assistant.Services
                     table.Columns.Add(header.Cells[i].ToString().Replace("/", "").Replace("\n", "").Replace(".", ""));
                 }
                 IRow cells;
-                for (int i = first + 1; i <= sheet.LastRowNum; i++)
+                for (int i = first + 1; i < sheet.LastRowNum; i++)
                 {
                     DataRow dataRow = table.NewRow();
                     cells = sheet.GetRow(i);
+                    if (cells == null) break;
                     for (int j = 0; j < header.LastCellNum; j++)
                     {
                         dataRow[j] = GetValueType(cells.GetCell(j));

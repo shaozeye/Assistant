@@ -33,8 +33,6 @@ namespace Assistant.Services
             ISheet sheet = null;
             try
             {
-
-
                 fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 switch (Path.GetExtension(filePath).ToLower())
                 {
@@ -57,6 +55,11 @@ namespace Assistant.Services
                     cell = sheet.GetRow(first).GetCell(0);
                 }
                 IRow header = sheet.GetRow(first);
+                if (header.LastCellNum > 20) 
+                {
+                    MessageBox.Show(ReadConfigXml("alarm01")+":LastCellNum="+header.LastCellNum);
+                    return table;
+                }
                 for (int i = 0; i < header.LastCellNum; i++)
                 {
                     table.Columns.Add(header.Cells[i].ToString().Replace("/", "").Replace("\n", "").Replace(".", ""));
@@ -66,10 +69,11 @@ namespace Assistant.Services
                 {
                     DataRow dataRow = table.NewRow();
                     cells = sheet.GetRow(i);
-                    if (cells == null) break;
+                   
                     for (int j = 0; j < header.LastCellNum; j++)
                     {
                         dataRow[j] = GetValueType(cells.GetCell(j));
+                       
                     }
                     table.Rows.Add(dataRow);
                 }
@@ -87,7 +91,7 @@ namespace Assistant.Services
             switch (cell.CellType)
             {
                 case CellType.Blank:
-                    return "";
+                    return "1";
                 case CellType.Boolean:
                     return cell.BooleanCellValue;
                 case CellType.Numeric:

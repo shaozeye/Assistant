@@ -101,11 +101,11 @@
     <Compile Include="Views\EncodingPage.xaml.cs">
       <DependentUpon>EncodingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SetPage.xaml.cs">
-      <DependentUpon>SetPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\SetWindow.xaml.cs">
       <DependentUpon>SetWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SqlPage.xaml.cs">
+      <DependentUpon>SqlPage.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -123,11 +123,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SetPage.xaml">
+    <Page Include="Views\SetWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SetWindow.xaml">
+    <Page Include="Views\SqlPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -169,13 +169,17 @@
     <Resource Include="Resources\Images\logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\Coding.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Images\Rule.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Log.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\History.png" />
+    <Resource Include="Resources\Images\Sql.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Coding.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -6,5 +6,6 @@
         <ResourceDictionary Source="/UILib;component/Controls/ImageButton.xaml"/>
         <ResourceDictionary Source="/UILib;component/Controls/IconButton.xaml"/>
         <ResourceDictionary Source="/UILib;component/Styles/DataGridStyle.xaml"/>
+        <ResourceDictionary Source="/UILib;component/Styles/TabControlStyle.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

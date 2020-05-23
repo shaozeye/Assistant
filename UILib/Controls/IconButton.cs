@@ -27,5 +27,17 @@ namespace UILib.Controls
             DependencyProperty.Register("Icon", typeof(string), typeof(IconButton), new PropertyMetadata(default));
 
 
+        public Visibility IsIconVisual
+        {
+            get { return (Visibility)GetValue(IsIconVisualProperty); }
+            set { SetValue(IsIconVisualProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsIconVisual.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsIconVisualProperty =
+            DependencyProperty.Register("IsIconVisual", typeof(Visibility), typeof(IconButton), new PropertyMetadata(Visibility.Visible));
+
+
+
     }
 }

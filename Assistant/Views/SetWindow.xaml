@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="设置" Height="450" Width="600" WindowStartupLocation="CenterScreen" DataContext="{Binding Source={StaticResource Locator}, Path=SetWindow}">
     <Grid>
-        <Grid.ColumnDefinitions>
+        <!--<Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.4*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
@@ -33,6 +33,29 @@
                 <Button Content="打开" Command="{Binding OpenFileCommand}" Tag="template" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"></Button>
 
             </StackPanel>
-        </DockPanel>
+        </DockPanel>-->
+        <TabControl TabStripPlacement="Left">
+            <TabItem Header="通用设置" Width="190" Style="{DynamicResource TabItemStyle}" >
+                <DockPanel>
+                    <CheckBox DockPanel.Dock="Top" Content="自动加载总表" Margin="5"></CheckBox>
+                    <CheckBox DockPanel.Dock="Top" Content="拖拽自动编码" Margin="5"></CheckBox>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="文件管理">
+                <DockPanel LastChildFill="False">
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="5">
+                        <TextBlock Text="总表路径：" />
+                        <TextBox Width="240" Text="{Binding TotalDataPath}" />
+                        <Button Content="打开" Command="{Binding OpenFileCommand}" Tag="total" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"></Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="5">
+                        <TextBlock Text="模板路径："/>
+                        <TextBox Width="240" Text="{Binding TemplateDataPath}"/>
+                        <Button Content="打开" Command="{Binding OpenFileCommand}" Tag="template" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"></Button>
+
+                    </StackPanel>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

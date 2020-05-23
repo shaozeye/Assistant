@@ -83,6 +83,17 @@ namespace Assistant.Models
 		}
 		#endregion
 
+		private int weekOfYear;
+
+		public int WeekOfYear
+		{
+			get { return weekOfYear; }
+			set
+			{
+				weekOfYear = value;
+				RaisePropertyChanged(nameof(WeekOfYear));
+			}
+		}
 
 
 

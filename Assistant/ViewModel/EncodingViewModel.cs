@@ -5,6 +5,7 @@ using GalaSoft.MvvmLight.Command;
 using Org.BouncyCastle.Crypto.Modes.Gcm;
 using System;
 using System.Data;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -34,8 +35,14 @@ namespace Assistant.ViewModel
             LoadCommand = new RelayCommand(LoadData);
             LoadTempCommand = new RelayCommand(LoadTemp);
             DropFileCommand = new RelayCommand<DragEventArgs>(DropFile);
+            encodingModel.WeekOfYear = GetWeekOfYear();
         }
+        public int GetWeekOfYear()
+        {
+            System.Globalization.GregorianCalendar gc = new System.Globalization.GregorianCalendar();
 
+            return gc.GetWeekOfYear(DateTime.Now, System.Globalization.CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+        }
         private void LoadTemp()
         {
             DataTable table = new DataTable();
@@ -78,6 +85,7 @@ namespace Assistant.ViewModel
 
         private void LoadData()
         {
+            TempPath = "";
             FilePath = exchangeData.ReadConfigXml("totalDataPath");
             encodingModel.TotalTable= LoadAllData(FilePath);
             encodingModel.TotalCount = encodingModel.DtSources.Rows.Count;
@@ -96,6 +104,7 @@ namespace Assistant.ViewModel
             totalTable.Columns["品名规格"].Expression = "物料名称+规格图号";
             foreach (DataRow dataRow in table.Rows)
             {
+                
                 string code = dataRow["品号"].ToString().ToUpper();
                 string combine = dataRow["品名"] + dataRow["规格"].ToString().Trim();
                 DataRow[] dataRows = totalTable.Select("品名规格=" + "'" + combine + "'");
@@ -128,10 +137,13 @@ namespace Assistant.ViewModel
                         }
                         else
                         {
-                            code = dataRows[0]["物料编码"].ToString().Substring(code.Length, 9 - code.Length);
+                            string num;
+                            num = dataRows[0]["物料编码"].ToString().Substring(code.Length, 9 - code.Length);
                             try
                             {
-                                code = (Int32.Parse(code) + 1).ToString();
+                                num = (int.Parse(code) + 1).ToString();
+                                code = code + num;
+                                dataRow["品号"] = code;
                             }
                             catch (Exception e)
                             {

@@ -5,10 +5,10 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Assistant.Views"
       xmlns:ui="clr-namespace:UILib.Controls;assembly=UILib"
-       xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
+      xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
       xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
       mc:Ignorable="d" 
-      d:DesignHeight="690.4" d:DesignWidth="1218.4" Background="#FFD0DDEA"
+      d:DesignHeight="690.4" d:DesignWidth="1218.4" Background="#FFCCD5F0"
       Title="Encoding" DataContext="{Binding Source={StaticResource Locator}, Path=Encoding}">
 
     <Grid>
@@ -16,13 +16,13 @@
             <ColumnDefinition Width="190"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Border HorizontalAlignment="Left" BorderBrush="#FF36CFC9" BorderThickness="0,1,1,1" >
+        <Border HorizontalAlignment="Left" BorderBrush="#FFC2C3C9" BorderThickness="0,1,1,1" >
             <StackPanel Background="White" Width="190">
                 <ui:IconButton Icon="&#xe738;" Content="载入总表" Command="{Binding LoadCommand}"/>
                 <ui:IconButton Icon="&#xe6bc;" Content="自动编码" Command="{Binding LoadTempCommand}"/>
                 <ui:IconButton Icon="&#xe6a4;" Content="生成文件"/>
             </StackPanel>
-            <Border.Triggers>
+            <!--<Border.Triggers>
                 <EventTrigger RoutedEvent="Loaded">
                     <EventTrigger.Actions>
                         <BeginStoryboard >
@@ -33,7 +33,7 @@
                         </BeginStoryboard>
                     </EventTrigger.Actions>
                 </EventTrigger>
-            </Border.Triggers>
+            </Border.Triggers>-->
         </Border>
         <Border Grid.Column="1" x:Name="data">
             <Grid>
@@ -78,11 +78,9 @@
 
                                 </Border>
                                 <Border DockPanel.Dock="Right">
-                                    <TextBlock Margin="3,2" VerticalAlignment="Center"  FontSize="14" Foreground="#FF69C0FF" Text="第19周"/>
+                                    <TextBlock Margin="3,2" VerticalAlignment="Center"  FontSize="14" Foreground="#FF69C0FF" Text="{Binding encodingModel.WeekOfYear, StringFormat=第{0}周}" />
                                 </Border>
-
-                                <TextBlock Margin="3,2" DockPanel.Dock="Top" FontSize="14" Foreground="#FF69C0FF" Text="本次新增："/>
-                                <TextBlock  Margin="3,2" DockPanel.Dock="Top" FontSize="14" Foreground="#FF69C0FF" Text="今日新增："/>
+                                <TextBlock  Margin="3,2" DockPanel.Dock="Top" FontSize="14" Foreground="#FF69C0FF" Text="今日累计："/>
                                 <TextBlock Margin="3,2" DockPanel.Dock="Top" FontSize="14" Foreground="#FF69C0FF" Text="本周累计："/>
 
                             </DockPanel>

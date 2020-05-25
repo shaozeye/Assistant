@@ -55,7 +55,7 @@ namespace Assistant.Services
                     cell = sheet.GetRow(first).GetCell(0);
                 }
                 IRow header = sheet.GetRow(first);
-                if (header.LastCellNum > 20) 
+                if (header.LastCellNum > 20) //表头超过20个
                 {
                     MessageBox.Show(ReadConfigXml("alarm01")+":LastCellNum="+header.LastCellNum);
                     return table;
@@ -64,16 +64,15 @@ namespace Assistant.Services
                 {
                     table.Columns.Add(header.Cells[i].ToString().Replace("/", "").Replace("\n", "").Replace(".", ""));
                 }
-                IRow cells;
+                IRow npoiRow;
                 for (int i = first + 1; i < sheet.LastRowNum; i++)
                 {
                     DataRow dataRow = table.NewRow();
-                    cells = sheet.GetRow(i);
-                   
+                    npoiRow = sheet.GetRow(i);
+                    if (npoiRow.Cells[3].CellType == CellType.Blank&& npoiRow.Cells[4].CellType == CellType.Blank&& npoiRow.Cells[5].CellType == CellType.Blank) break;
                     for (int j = 0; j < header.LastCellNum; j++)
                     {
-                        dataRow[j] = GetValueType(cells.GetCell(j));
-                       
+                        dataRow[j] = GetValueType(npoiRow.GetCell(j));
                     }
                     table.Rows.Add(dataRow);
                 }
@@ -91,7 +90,7 @@ namespace Assistant.Services
             switch (cell.CellType)
             {
                 case CellType.Blank:
-                    return "1";
+                    return " ";
                 case CellType.Boolean:
                     return cell.BooleanCellValue;
                 case CellType.Numeric:

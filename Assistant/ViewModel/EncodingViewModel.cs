@@ -141,7 +141,7 @@ namespace Assistant.ViewModel
                             num = dataRows[0]["物料编码"].ToString().Substring(code.Length, 9 - code.Length);
                             try
                             {
-                                num = (int.Parse(code) + 1).ToString();
+                                num = (int.Parse(num) + 1).ToString();
                                 code = code + num;
                                 dataRow["品号"] = code;
                             }

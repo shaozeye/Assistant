@@ -1,5 +1,6 @@
 ﻿using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
+using NPOI.SS.Util;
 using NPOI.XSSF.UserModel;
 using System;
 using System.Configuration;
@@ -13,16 +14,17 @@ namespace Assistant.Services
     interface IExchangeData
     {
         DataTable ExcelToDatatable(string filePath, out string msg);
-        void DatatableToExcel(DataTable table);
+        void DatatableToExcel(DataTable table,string path);
         string ReadConfigXml(string key);
         void WriteConfigXml(string key, string value);
     }
     public class ExchangeData : IExchangeData
     {
+       
 
         public ExchangeData()
         {
-
+           
         }
         private IWorkbook workbook = null;
         private FileStream fs = null;
@@ -105,9 +107,59 @@ namespace Assistant.Services
                     return "=" + cell.CellFormula;
             }
         }
-        public void DatatableToExcel(DataTable table)
+        public void DatatableToExcel(DataTable table,string path)
         {
-
+            if (table==null||string.IsNullOrEmpty(path))
+            {
+                MessageBox.Show(ReadConfigXml("alarm08"));
+                return;
+            }
+            IWorkbook workbook = null;
+            if (Path.GetExtension(path).ToLower() == ".xls")
+                workbook = new HSSFWorkbook();
+            else if (Path.GetExtension(path) == ".xlsx")
+                workbook = new XSSFWorkbook();
+            ISheet sheet = workbook.CreateSheet("sheet1");
+            sheet.SetAutoFilter(new CellRangeAddress(0, 0, 0, table.Columns.Count - 1));
+            sheet.CreateFreezePane(table.Columns.Count, 1);
+            IRow cells = sheet.CreateRow(0);
+            for (int i = 0; i < table.Columns.Count; i++)
+            {
+                sheet.SetColumnWidth(i, 20 * 256);
+                cells.CreateCell(i).SetCellValue(table.Columns[i].ColumnName);
+            }
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                cells = sheet.CreateRow(i + 1);
+                for (int j = 0; j < table.Columns.Count; j++)
+                {
+                    cells.CreateCell(j).SetCellValue(table.Rows[i][j].ToString());
+                }
+            }
+            FileStream fs;
+            try
+            {
+                File.Delete(path);
+                fs = File.Create(path);
+                fs.Close();
+                fs = new FileStream(path, FileMode.Open, FileAccess.Write);
+                workbook.Write(fs);
+                //fs.Flush();
+                fs.Close();
+                workbook.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            if (!File.Exists(path))
+            {
+                MessageBox.Show(ReadConfigXml("alarm09"));
+            }
+            else
+            {
+                System.Diagnostics.Process.Start("explorer.exe", path);
+            }
         }
 
         public string ReadConfigXml(string key)

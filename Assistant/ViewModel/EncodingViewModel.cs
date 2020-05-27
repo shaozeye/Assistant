@@ -5,9 +5,12 @@ using GalaSoft.MvvmLight.Command;
 using Org.BouncyCastle.Crypto.Modes.Gcm;
 using System;
 using System.Data;
+using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Animation;
 
 namespace Assistant.ViewModel
 {
@@ -19,10 +22,14 @@ namespace Assistant.ViewModel
         public string TempPath { get; set; }
         public ExchangeData exchangeData { get; set; }
         public EncodingModel encodingModel { get; set; }
+        public string TotalFilePath { get; set; }
+        public string TempFilePath { get; set; }
         #region Command
         public RelayCommand<DragEventArgs> DropFileCommand { get; set; }
+
         public RelayCommand LoadCommand { get; set; }
         public RelayCommand LoadTempCommand { get; set; }
+        public RelayCommand SaveFileCommand { get; set; }
         #endregion
         public const  string buylist = "项目简称";
         public const  string bom = "工单单别";
@@ -35,12 +42,28 @@ namespace Assistant.ViewModel
             LoadCommand = new RelayCommand(LoadData);
             LoadTempCommand = new RelayCommand(LoadTemp);
             DropFileCommand = new RelayCommand<DragEventArgs>(DropFile);
+            SaveFileCommand = new RelayCommand(SaveFile);
             encodingModel.WeekOfYear = GetWeekOfYear();
+            TotalFilePath = Path.GetFullPath(exchangeData.ReadConfigXml("totalDataPath"));
+            TempFilePath = Path.GetDirectoryName(exchangeData.ReadConfigXml("totalDataPath"))+"\\";
         }
+
+        private void SaveFile()
+        {
+            if (encodingModel.TotalTable == null||encodingModel.IdentifyTable==null)
+            {
+                MessageBox.Show(exchangeData.ReadConfigXml("alarm08"));
+                return;
+            }
+            TotalFilePath = Path.GetFullPath(exchangeData.ReadConfigXml("totalDataPath"));
+            TempFilePath = Path.GetDirectoryName(exchangeData.ReadConfigXml("totalDataPath")) + "\\" + Path.GetFileName(TempPath);
+           // exchangeData.DatatableToExcel(encodingModel.TotalTable, TotalFilePath);
+            exchangeData.DatatableToExcel(encodingModel.IdentifyTable, TempFilePath);
+        }
+
         public int GetWeekOfYear()
         {
             System.Globalization.GregorianCalendar gc = new System.Globalization.GregorianCalendar();
-
             return gc.GetWeekOfYear(DateTime.Now, System.Globalization.CalendarWeekRule.FirstDay, DayOfWeek.Monday);
         }
         private void LoadTemp()
@@ -57,15 +80,18 @@ namespace Assistant.ViewModel
                 case buylist:
                     //encodingModel.State +="\r\n" "请购单";
                     table= encodingModel.IdentifyTable.DefaultView.ToTable(false,BuyList);
+                   
                     break;
                 case bom:
                     //encodingModel.State +="\r\n" "BOM表";
-                    table = encodingModel.TotalTable.DefaultView.ToTable(false, BOM);
+                    table = encodingModel.TempTable.DefaultView.ToTable(false, BOM);
                     break;
                 default:
                     break;
             }
-            encodingModel.DtSources= GetMaxSerialNum(table);
+            table.Columns.Add("提示");
+            
+            encodingModel.DtSources= encodingModel.IdentifyTable= GetMaxSerialNum(table);
             encodingModel.IdentifyCount = encodingModel.DtSources.Rows.Count;
 
 
@@ -79,8 +105,8 @@ namespace Assistant.ViewModel
                 return;
             }
             TempPath = ((System.Array)e.Data.GetData(System.Windows.DataFormats.FileDrop)).GetValue(0).ToString();
-            encodingModel.IdentifyTable= LoadAllData(TempPath);
-            encodingModel.IdentifyCount= encodingModel.DtSources.Rows.Count;
+            encodingModel.TempTable= LoadAllData(TempPath);
+           // encodingModel.IdentifyCount= encodingModel.DtSources.Rows.Count;
         }
 
         private void LoadData()
@@ -102,15 +128,27 @@ namespace Assistant.ViewModel
             totalTable = encodingModel.TotalTable.Copy();
             totalTable.Columns.Add("品名规格",typeof(string));
             totalTable.Columns["品名规格"].Expression = "物料名称+规格图号";
+            string code;
+            int codeIdex = 0;
+
             foreach (DataRow dataRow in table.Rows)
             {
-                
-                string code = dataRow["品号"].ToString().ToUpper();
+                if (dataRow[0].ToString().ToUpper() == " ")
+                {
+                    codeIdex = 1;
+                }
+                else
+                {
+                    codeIdex = 0;
+
+                }
+                code = dataRow[codeIdex].ToString().ToUpper();
                 string combine = dataRow["品名"] + dataRow["规格"].ToString().Trim();
                 DataRow[] dataRows = totalTable.Select("品名规格=" + "'" + combine + "'");
-                if(dataRows.Length>0)
+                if (dataRows.Length > 0)
                 {
-                    dataRow["品号"] = dataRows[0]["物料编码"];
+                    dataRow[codeIdex] = dataRows[0]["物料编码"];
+                    dataRow["提示"] = exchangeData.ReadConfigXml("alarm05");
                 }
                 else
                 {
@@ -119,21 +157,22 @@ namespace Assistant.ViewModel
                         dataRows = totalTable.Select("物料编码=" + "'" + code + "'");
                         if (dataRows.Length == 0)
                         {
-                            encodingModel.State += exchangeData.ReadConfigXml("alarm04")+code+ "\r\n";
+                            dataRow["提示"] = exchangeData.ReadConfigXml("alarm04");
                         }
                         else
                         {
                             dataRow["品名"] = dataRows[0]["物料名称"];
                             dataRow["规格"] = dataRows[0]["规格图号"];
+                            dataRow["提示"] = exchangeData.ReadConfigXml("alarm06");
                         }
-                        
+
                     }
                     else
                     {
                         dataRows = totalTable.Select("物料编码 like" + "'" + code + "%'", "物料编码 Desc");
                         if (dataRows.Length == 0)
                         {
-                            encodingModel.State += exchangeData.ReadConfigXml("alarm04")+code + "\r\n";
+                            dataRow["提示"] = exchangeData.ReadConfigXml("alarm07");
                         }
                         else
                         {
@@ -143,18 +182,20 @@ namespace Assistant.ViewModel
                             {
                                 num = (int.Parse(num) + 1).ToString();
                                 code = code + num;
-                                dataRow["品号"] = code;
+                                dataRow[codeIdex] = code;
+                                totalTable.Rows.Add(dataRow.ItemArray[0], dataRow.ItemArray[1], dataRow.ItemArray[2], dataRow.ItemArray[3]);
                             }
                             catch (Exception e)
                             {
-
                                 encodingModel.State += e.Message + "\r\n";
                             }
                         }
-                       
+
                     }
                 }
             }
+
+            
             return table;
         }
 
@@ -171,7 +212,7 @@ namespace Assistant.ViewModel
        
         public void Log(string filePath, string Msg)
         {
-            throw new NotImplementedException();
+           //DateTime.Now.Day
         }
     }
    

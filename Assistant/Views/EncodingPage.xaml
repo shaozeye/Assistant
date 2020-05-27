@@ -20,7 +20,7 @@
             <StackPanel Background="White" Width="190">
                 <ui:IconButton Icon="&#xe738;" Content="载入总表" Command="{Binding LoadCommand}"/>
                 <ui:IconButton Icon="&#xe6bc;" Content="自动编码" Command="{Binding LoadTempCommand}"/>
-                <ui:IconButton Icon="&#xe6a4;" Content="生成文件"/>
+                <ui:IconButton Icon="&#xe6a4;" Content="生成文件" Command="{Binding SaveFileCommand}"/>
             </StackPanel>
             <!--<Border.Triggers>
                 <EventTrigger RoutedEvent="Loaded">
@@ -57,12 +57,15 @@
                                 </Border>
                                 <Border DockPanel.Dock="Top" VerticalAlignment="Top">
                                     <TextBox BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" ToolTip="{Binding encodingModel.State}" Margin="3,2" Text="{Binding encodingModel.State}"  FontSize="14" VerticalAlignment="Center"  Foreground="#FFFFC53D">
+                                        
                                         <TextBox.Triggers>
                                             <EventTrigger RoutedEvent="TextBox.TextChanged">
+                                                
                                                 <BeginStoryboard>
                                                     <Storyboard AutoReverse="True">
-                       
-                                                        <DoubleAnimation RepeatBehavior="0:0:1" From="1" To="0" Storyboard.TargetProperty="Opacity" Duration="00:00:0.2" Storyboard.TargetName="bd"/>
+                                                        <DoubleAnimation RepeatBehavior="0:0:1" From="1" To="0" Storyboard.TargetProperty="Opacity" Duration="00:00:0.2" Storyboard.TargetName="bd">
+                                                           
+                                                        </DoubleAnimation>
                                                          </Storyboard>
                                                 </BeginStoryboard>
                                             </EventTrigger>

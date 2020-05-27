@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 
 namespace Assistant.Views
 {
@@ -11,5 +12,6 @@ namespace Assistant.Views
         {
             InitializeComponent();
         }
+       
     }
 }

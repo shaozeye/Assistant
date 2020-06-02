@@ -46,6 +46,7 @@ namespace Assistant.ViewModel
             SimpleIoc.Default.Register<MainViewModel>(); 
             SimpleIoc.Default.Register<EncodingViewModel>();
             SimpleIoc.Default.Register<SetWindowViewModel>();
+            SimpleIoc.Default.Register<SqlViewModel>();
         }
 
         public MainViewModel Main
@@ -68,6 +69,13 @@ namespace Assistant.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<SetWindowViewModel>();
+            }
+        }
+        public SqlViewModel Sql
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<SqlViewModel>();
             }
         }
         public static void Cleanup()

@@ -39,6 +39,7 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="80"/>
+                    
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
@@ -50,20 +51,20 @@
                             <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="200"/>
                         </Grid.ColumnDefinitions>
-                        <Border Background="White" Margin="5" BorderThickness="1" BorderBrush="#FFFFC53D">
+                        <Border Background="White" Margin="5" BorderThickness="1" BorderBrush="#FFFF7A45">
                             <DockPanel>
-                                <Border Name="bd" DockPanel.Dock="Left" HorizontalAlignment="Left" Background="#FFFFC53D">
+                                <Border Name="bd" DockPanel.Dock="Left" HorizontalAlignment="Left" Background="#FFFF7A45">
                                     <TextBlock Margin="2" Text="提示" Foreground="White" FontSize="16" VerticalAlignment="Center"/>
                                 </Border>
                                 <Border DockPanel.Dock="Top" VerticalAlignment="Top">
-                                    <TextBox BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" ToolTip="{Binding encodingModel.State}" Margin="3,2" Text="{Binding encodingModel.State}"  FontSize="14" VerticalAlignment="Center"  Foreground="#FFFFC53D">
+                                    <TextBox x:Name="tb" VerticalScrollBarVisibility="Auto"  BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" ToolTip="{Binding encodingModel.State}" Margin="3,2" Text="{Binding encodingModel.State}"  FontSize="14" VerticalAlignment="Center"  Foreground="#FFFF7A45">
                                         
                                         <TextBox.Triggers>
                                             <EventTrigger RoutedEvent="TextBox.TextChanged">
                                                 
                                                 <BeginStoryboard>
                                                     <Storyboard AutoReverse="True">
-                                                        <DoubleAnimation RepeatBehavior="0:0:1" From="1" To="0" Storyboard.TargetProperty="Opacity" Duration="00:00:0.2" Storyboard.TargetName="bd">
+                                                        <DoubleAnimation RepeatBehavior="0:0:1" From="1" To="0" Storyboard.TargetProperty="Opacity" Duration="00:00:0.2" Storyboard.TargetName="tb">
                                                            
                                                         </DoubleAnimation>
                                                          </Storyboard>
@@ -99,19 +100,20 @@
                             </DockPanel>
 
                         </Border>
-                        <Border Background="White" Margin="5" Grid.Column="3" BorderBrush="#FFFF7A45" BorderThickness="1">
+                        <Border Background="White" Margin="5" Grid.Column="3" BorderBrush="#FFFFC53D" BorderThickness="1">
                             <DockPanel>
-                                <Border Background="#FFFF7A45" DockPanel.Dock="Top">
+                                <Border Background="#FFFFC53D" DockPanel.Dock="Top">
                                     <TextBlock HorizontalAlignment="Center" FontSize="16" Foreground="White">
                                     总表数量
                                     </TextBlock>
                                 </Border>
-                                <TextBlock Text="{Binding encodingModel.TotalCount}" HorizontalAlignment="Center" Margin="0,0,10,0" VerticalAlignment="Center" FontSize="20" Foreground="#FFFF7A45"></TextBlock>
+                                <TextBlock Text="{Binding encodingModel.TotalCount}" HorizontalAlignment="Center" Margin="0,0,10,0" VerticalAlignment="Center" FontSize="20" Foreground="#FFFFC53D"></TextBlock>
                             </DockPanel>
 
                         </Border>
                     </Grid>
                 </Border>
+                
                 <DataGrid Style="{StaticResource NPOITable}" Grid.Row="1" Margin="5,0" ColumnWidth="*" 
                           ItemsSource="{Binding encodingModel.DtSources}" AllowDrop="True">
                     <i:Interaction.Triggers>

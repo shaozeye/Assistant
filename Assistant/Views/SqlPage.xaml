@@ -16,10 +16,12 @@
             <ColumnDefinition Width="190"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <StackPanel Background="White" Width="190">
-            <ui:IconButton Icon="&#xe726;" Content="连接数据库"/>
-            <ui:IconButton Icon="&#xe732;" Content="断开数据库"/>
-            
-        </StackPanel>
+        <Border HorizontalAlignment="Left" BorderBrush="#FFC2C3C9" BorderThickness="0,1,1,1" >
+            <StackPanel Background="White" Width="190">
+                <ui:IconButton Icon="&#xe726;" Content="连接数据库"/>
+                <ui:IconButton Icon="&#xe732;" Content="断开数据库"/>
+
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>

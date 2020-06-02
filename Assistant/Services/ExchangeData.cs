@@ -1,4 +1,6 @@
-﻿using NPOI.HSSF.UserModel;
+﻿using Assistant.ViewModel;
+using GalaSoft.MvvmLight.Ioc;
+using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
 using NPOI.XSSF.UserModel;
@@ -7,7 +9,9 @@ using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
+
 
 namespace Assistant.Services
 {
@@ -71,7 +75,8 @@ namespace Assistant.Services
                 {
                     DataRow dataRow = table.NewRow();
                     npoiRow = sheet.GetRow(i);
-                    if (npoiRow.Cells[3].CellType == CellType.Blank&& npoiRow.Cells[4].CellType == CellType.Blank&& npoiRow.Cells[5].CellType == CellType.Blank) break;
+                    if (npoiRow.Cells[0].CellType == CellType.Blank&& npoiRow.Cells[1].CellType == CellType.Blank&&
+                        npoiRow.Cells[2].CellType == CellType.Blank&& npoiRow.Cells[3].CellType == CellType.Blank) break;
                     for (int j = 0; j < header.LastCellNum; j++)
                     {
                         dataRow[j] = GetValueType(npoiRow.GetCell(j));
@@ -107,6 +112,9 @@ namespace Assistant.Services
                     return "=" + cell.CellFormula;
             }
         }
+        public delegate void LogError(string msg);
+        //Action action;
+
         public void DatatableToExcel(DataTable table,string path)
         {
             if (table==null||string.IsNullOrEmpty(path))
@@ -133,13 +141,13 @@ namespace Assistant.Services
                 cells = sheet.CreateRow(i + 1);
                 for (int j = 0; j < table.Columns.Count; j++)
                 {
-                    cells.CreateCell(j).SetCellValue(table.Rows[i][j].ToString());
+                    cells.CreateCell(j).SetCellValue(table.Rows[i][j].ToString().Trim());
                 }
             }
             FileStream fs;
             try
             {
-                File.Delete(path);
+               // File.Delete(path);
                 fs = File.Create(path);
                 fs.Close();
                 fs = new FileStream(path, FileMode.Open, FileAccess.Write);
@@ -147,19 +155,14 @@ namespace Assistant.Services
                 //fs.Flush();
                 fs.Close();
                 workbook.Close();
+                //action = new Action(SimpleIoc.Default.GetInstance<EncodingViewModel>().SaveSuccess);
+                //action.Invoke();
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                throw new Exception(e.Message);
             }
-            if (!File.Exists(path))
-            {
-                MessageBox.Show(ReadConfigXml("alarm09"));
-            }
-            else
-            {
-                System.Diagnostics.Process.Start("explorer.exe", path);
-            }
+            
         }
 
         public string ReadConfigXml(string key)

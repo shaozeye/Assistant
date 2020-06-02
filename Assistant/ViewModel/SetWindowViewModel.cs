@@ -17,6 +17,7 @@ namespace Assistant.ViewModel
         public RelayCommand<object>  OpenFileCommand { get; set; }
 		ExchangeData exchangeData { get; set; }
 
+
 		public SetWindowViewModel()
         {
             OpenFileCommand = new RelayCommand<object>(OpenFile);
@@ -24,6 +25,35 @@ namespace Assistant.ViewModel
 			TemplateDataPath = exchangeData.ReadConfigXml("templatePath");
 			TotalDataPath = exchangeData.ReadConfigXml("totalDataPath");
 		}
+		private bool? autoStart;
+
+		public bool? AutoStart
+		{
+			get 
+			{
+				//autoLoad = exchangeData.ReadConfigXml("autoLoad");
+				return autoStart; 
+			}
+			set
+			{
+				autoStart = value;
+				//exchangeData.WriteConfigXml();
+				RaisePropertyChanged(nameof(AutoStart));
+			}
+		}
+
+		private bool? autoLoad;
+
+		public bool? AutoLoad
+		{
+			get { return autoLoad; }
+			set
+			{
+				autoLoad = value;
+				RaisePropertyChanged(nameof(AutoLoad));
+			}
+		}
+
 		private string totalDataPath;
 
 		public string TotalDataPath

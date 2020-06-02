@@ -97,6 +97,7 @@
     <Compile Include="ViewModel\EncodingViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\SetWindowViewModel.cs" />
+    <Compile Include="ViewModel\SqlViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="Views\EncodingPage.xaml.cs">
       <DependentUpon>EncodingPage.xaml</DependentUpon>

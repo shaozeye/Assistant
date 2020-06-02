@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="设置" Height="450" Width="600" WindowStartupLocation="CenterScreen" DataContext="{Binding Source={StaticResource Locator}, Path=SetWindow}">
     <Grid>
-        <!--<Grid.ColumnDefinitions>
+        <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.4*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
@@ -33,8 +33,8 @@
                 <Button Content="打开" Command="{Binding OpenFileCommand}" Tag="template" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"></Button>
 
             </StackPanel>
-        </DockPanel>-->
-        <TabControl TabStripPlacement="Left">
+        </DockPanel>
+        <!--<TabControl TabStripPlacement="Left">
             <TabItem Header="通用设置" Width="190" Style="{DynamicResource TabItemStyle}" >
                 <DockPanel>
                     <CheckBox DockPanel.Dock="Top" Content="自动加载总表" Margin="5"></CheckBox>
@@ -56,6 +56,6 @@
                     </StackPanel>
                 </DockPanel>
             </TabItem>
-        </TabControl>
+        </TabControl>-->
     </Grid>
 </Window>

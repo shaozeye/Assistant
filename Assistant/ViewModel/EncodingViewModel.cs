@@ -2,6 +2,7 @@
 using Assistant.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using Microsoft.Win32;
 using Org.BouncyCastle.Crypto.Modes.Gcm;
 using System;
 using System.Data;
@@ -46,19 +47,47 @@ namespace Assistant.ViewModel
             encodingModel.WeekOfYear = GetWeekOfYear();
             TotalFilePath = Path.GetFullPath(exchangeData.ReadConfigXml("totalDataPath"));
             TempFilePath = Path.GetDirectoryName(exchangeData.ReadConfigXml("totalDataPath"))+"\\";
+            //System.Diagnostics.Process.Start("explorer.exe", @"D:\");
         }
 
         private void SaveFile()
         {
             if (encodingModel.TotalTable == null||encodingModel.IdentifyTable==null)
             {
-                MessageBox.Show(exchangeData.ReadConfigXml("alarm08"));
+               encodingModel.State+=  exchangeData.ReadConfigXml("alarm08")+"\r\n";
                 return;
             }
             TotalFilePath = Path.GetFullPath(exchangeData.ReadConfigXml("totalDataPath"));
-            TempFilePath = Path.GetDirectoryName(exchangeData.ReadConfigXml("totalDataPath")) + "\\" + Path.GetFileName(TempPath);
-           // exchangeData.DatatableToExcel(encodingModel.TotalTable, TotalFilePath);
-            exchangeData.DatatableToExcel(encodingModel.IdentifyTable, TempFilePath);
+            TempFilePath = Path.GetDirectoryName(exchangeData.ReadConfigXml("totalDataPath"))  + Path.GetFileName(TempPath);
+            try
+            {
+                exchangeData.DatatableToExcel(encodingModel.TotalTable, TotalFilePath);
+                exchangeData.DatatableToExcel(encodingModel.IdentifyTable, TempFilePath);
+                if (File.Exists(TotalFilePath) && File.Exists(TempFilePath))
+                {
+                    SaveSuccess();
+                }
+            }
+            catch (Exception e)
+            {
+
+                encodingModel.State += e.Message + "\r\n";
+            }
+           
+            
+            
+        }
+        public void SaveSuccess()
+        {
+            var result = MessageBox.Show("文件保存成功\r\n是否打开文件？", "提示", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                System.Diagnostics.Process.Start("explorer.exe", TempFilePath);
+            }
+            else
+            {
+                return;
+            }
         }
 
         public int GetWeekOfYear()

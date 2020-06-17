@@ -53,6 +53,20 @@ namespace Assistant.ViewModel
 				RaisePropertyChanged(nameof(AutoLoad));
 			}
 		}
+		private string safeCount;
+
+		public string SafeCount
+		{
+			get {
+				safeCount = exchangeData.ReadConfigXml("safeColumnCount");
+				return safeCount; }
+			set
+			{
+				safeCount = value;
+				exchangeData.WriteConfigXml("safeColumnCount", safeCount);
+				RaisePropertyChanged(nameof(SafeCount));
+			}
+		}
 
 		private string totalDataPath;
 

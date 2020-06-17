@@ -61,21 +61,27 @@ namespace Assistant.Services
                     cell = sheet.GetRow(first).GetCell(0);
                 }
                 IRow header = sheet.GetRow(first);
-                if (header.LastCellNum > 20) //表头超过20个
+                int saveNum =int.Parse( ReadConfigXml("safeColumnCount"));
+                if (header.LastCellNum > saveNum) 
                 {
                     MessageBox.Show(ReadConfigXml("alarm01")+":LastCellNum="+header.LastCellNum);
                     return table;
                 }
+                
                 for (int i = 0; i < header.LastCellNum; i++)
                 {
                     table.Columns.Add(header.Cells[i].ToString().Replace("/", "").Replace("\n", "").Replace(".", ""));
                 }
+                if (Path.GetFileName(filePath).Contains("INVMB"))   
+                {
+                    return table;
+                }
                 IRow npoiRow;
-                for (int i = first + 1; i < sheet.LastRowNum; i++)
+                for (int i = first + 1; i <= sheet.LastRowNum; i++)
                 {
                     DataRow dataRow = table.NewRow();
                     npoiRow = sheet.GetRow(i);
-                    if (npoiRow.Cells[0].CellType == CellType.Blank&& npoiRow.Cells[1].CellType == CellType.Blank&&
+                    if ( npoiRow.Cells[1].CellType == CellType.Blank&&
                         npoiRow.Cells[2].CellType == CellType.Blank&& npoiRow.Cells[3].CellType == CellType.Blank) break;
                     for (int j = 0; j < header.LastCellNum; j++)
                     {
@@ -127,6 +133,8 @@ namespace Assistant.Services
                 workbook = new HSSFWorkbook();
             else if (Path.GetExtension(path) == ".xlsx")
                 workbook = new XSSFWorkbook();
+            else
+                MessageBox.Show(path);
             ISheet sheet = workbook.CreateSheet("sheet1");
             sheet.SetAutoFilter(new CellRangeAddress(0, 0, 0, table.Columns.Count - 1));
             sheet.CreateFreezePane(table.Columns.Count, 1);

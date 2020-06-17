@@ -22,6 +22,8 @@
         <DockPanel LastChildFill="False" Grid.Column="1">
             <CheckBox DockPanel.Dock="Top" Content="自动加载总表" Margin="5"></CheckBox>
             <CheckBox DockPanel.Dock="Top" Content="拖拽自动编码" Margin="5"></CheckBox>
+            <TextBlock DockPanel.Dock="Top" Text="{Binding ElementName=slider, Path=Value,StringFormat=最大识别表格列数：{0}列}" Margin="5"></TextBlock>
+            <Slider Name="slider" DockPanel.Dock="Top" Value="{Binding SafeCount}" Margin="0" Width="337" HorizontalAlignment="Left" IsSnapToTickEnabled="True"  Maximum="50" ></Slider>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="5">
                 <TextBlock Text="总表路径：" />
                 <TextBox Width="240" Text="{Binding TotalDataPath}" />

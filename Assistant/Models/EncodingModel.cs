@@ -18,6 +18,18 @@ namespace Assistant.Models
 		}
 
 		#region 成员字段
+		private DataTable templateTable;
+
+		public DataTable TemplateTable
+		{
+			get { return templateTable; }
+			set
+			{
+				templateTable = value;
+				RaisePropertyChanged(nameof(TemplateTable));
+			}
+		}
+
 		private string state;
 
 		public string State
